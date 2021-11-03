@@ -1,11 +1,13 @@
-from yolo_detection_images import YoloDetection, YoloDetectionImg
+from yolo_detection_images import YoloDetection, YoloDetectionImg, YoloDetectionOnlyTags
 from flask import Flask, jsonify, request
 import requests
 import shutil
 import os
+from flask_cors import CORS, cross_origin
 
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/')
@@ -24,8 +26,10 @@ def index():
 #         return jsonify({'error': 'Please send a pic'})
 
 @app.route('/detect', methods=['POST'])
+@cross_origin()
 def detect():
-    image_url = request.form['img_url']
+    data = request.get_json()
+    image_url = data['img_url']
     name = image_url.split('?')[-2]
     filename = name.split("/")[-1]
 
@@ -40,7 +44,7 @@ def detect():
         with open(filename, 'wb') as f:
             shutil.copyfileobj(r.raw, f)
         print('Image sucessfully Downloaded: ', filename)
-        results = YoloDetection(filename)
+        results = YoloDetectionOnlyTags(filename)
         # write command to delete file
         os.remove(filename)
         return jsonify(results)
