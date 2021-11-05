@@ -9,7 +9,7 @@ def YoloDetection(image_path):
     modelConfiguration = 'cfg/yolov3.cfg'
     modelWeights = 'yolov3.weights'
 
-    labelsPath = 'coco.names'
+    labelsPath = 'df2.names'
     labels = open(labelsPath).read().strip().split('\n')
 
     np.random.seed(10)
@@ -95,7 +95,7 @@ def YoloDetectionImg(image):
     modelConfiguration = 'cfg/yolov3.cfg'
     modelWeights = 'yolov3.weights'
 
-    labelsPath = 'coco.names'
+    labelsPath = 'df2.names'
     labels = open(labelsPath).read().strip().split('\n')
 
     np.random.seed(10)
@@ -181,7 +181,7 @@ def YoloDetectionOnlyTags(image_path):
     modelConfiguration = 'cfg/yolov3.cfg'
     modelWeights = 'yolov3.weights'
 
-    labelsPath = 'coco.names'
+    labelsPath = 'df2.names'
     labels = open(labelsPath).read().strip().split('\n')
 
     np.random.seed(10)

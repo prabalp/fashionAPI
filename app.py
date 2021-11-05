@@ -26,7 +26,7 @@ def index():
 #         return jsonify({'error': 'Please send a pic'})
 
 @app.route('/detect', methods=['POST'])
-@cross_origin()
+# @cross_origin()
 def detect():
     data = request.get_json()
     image_url = data['img_url']

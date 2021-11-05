@@ -7,7 +7,7 @@ NMSThreshold = 0.3
 modelConfiguration = 'cfg/yolov3.cfg'
 modelWeights = 'yolov3.weights'
 
-labelsPath = 'coco.names'
+labelsPath = 'df2.names'
 labels = open(labelsPath).read().strip().split('\n')
 
 np.random.seed(10)
@@ -27,7 +27,7 @@ try:
     total = int(video.get(prop))
     print("[INFO] {} total frames in video".format(total))
 except:
-    printf("Could not determine no. of frames in video")
+    print("Could not determine no. of frames in video")
 
 count = 0
 while True:
@@ -35,9 +35,10 @@ while True:
     if not ret:
         break
     if W is None or H is None:
-        (H,W) = frame.shape[:2]
+        (H, W) = frame.shape[:2]
 
-    blob = cv2.dnn.blobFromImage(frame, 1 / 255.0, (416, 416), swapRB = True, crop = False)
+    blob = cv2.dnn.blobFromImage(
+        frame, 1 / 255.0, (416, 416), swapRB=True, crop=False)
     net.setInput(blob)
     layersOutputs = net.forward(outputLayer)
 
@@ -60,8 +61,9 @@ while True:
                 confidences.append(float(confidence))
                 classIDs.append(classID)
 
-    #Apply Non Maxima Suppression
-    detectionNMS = cv2.dnn.NMSBoxes(boxes, confidences, confidenceThreshold, NMSThreshold)
+    # Apply Non Maxima Suppression
+    detectionNMS = cv2.dnn.NMSBoxes(
+        boxes, confidences, confidenceThreshold, NMSThreshold)
     if(len(detectionNMS) > 0):
         for i in detectionNMS.flatten():
             (x, y) = (boxes[i][0], boxes[i][1])
@@ -70,14 +72,16 @@ while True:
             color = [int(c) for c in COLORS[classIDs[i]]]
             cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
             text = '{}: {:.4f}'.format(labels[classIDs[i]], confidences[i])
-            cv2.putText(frame, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            cv2.putText(frame, text, (x, y - 5),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
             if writer is None:
                 fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-                writer = cv2.VideoWriter('chase_output.avi', fourcc, 30, (frame.shape[1], frame.shape[0]), True)
+                writer = cv2.VideoWriter(
+                    'chase_output.avi', fourcc, 30, (frame.shape[1], frame.shape[0]), True)
     if writer is not None:
         writer.write(frame)
-        print("Writing frame" , count+1)
+        print("Writing frame", count+1)
         count = count + 1
 
 writer.release()
