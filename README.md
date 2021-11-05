@@ -9,8 +9,10 @@ A flask API made using YOLO V3, trained on the deepfashion2 dataset.
 First clone the given git repo. 
 
 ```bash
-  git clone https://github.com/prabalp/alpha-fashion-detection.git
+  git clone https://github.com/prabalp/fashionAPI.git
+  cd .\fashionAPI\
 ```
+Download weights from the [Google Drive folder](https://drive.google.com/drive/folders/1mfglV2oayPXkE5pgItprjKuU03iW1hDK?usp=sharing), and save it in the fashionAPI folder.
 
 Create a virtual enviroment using pip or conda.
 
