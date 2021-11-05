@@ -12,7 +12,7 @@ CORS(app)
 
 @app.route('/')
 def index():
-    return 'Hello, please send a pic'
+    return 'Please Upload an image.'
 
 
 # @app.route('/image', methods=['POST'])
