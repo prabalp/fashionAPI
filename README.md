@@ -58,6 +58,7 @@ After the api is up and running use postman to test it
 ## Authors
 
 - [@prabalp](https://github.com/prabalp)
+- [@shubham-333](https://github.com/shubham-333)
 
   
 ## Further development 
