@@ -7,7 +7,7 @@ NMSThreshold = 0.3
 modelConfiguration = 'cfg/yolov3.cfg'
 modelWeights = 'yolov3.weights'
 
-labelsPath = 'coco.names'
+labelsPath = 'df2.names'
 labels = open(labelsPath).read().strip().split('\n')
 
 np.random.seed(10)
@@ -26,9 +26,10 @@ while True:
     ret, frame = video_capture.read()
     frame = cv2.flip(frame, 1)
     if W is None or H is None:
-        (H,W) = frame.shape[:2]
+        (H, W) = frame.shape[:2]
 
-    blob = cv2.dnn.blobFromImage(frame, 1 / 255.0, (416, 416), swapRB = True, crop = False)
+    blob = cv2.dnn.blobFromImage(
+        frame, 1 / 255.0, (416, 416), swapRB=True, crop=False)
     net.setInput(blob)
     layersOutputs = net.forward(outputLayer)
 
@@ -51,8 +52,9 @@ while True:
                 confidences.append(float(confidence))
                 classIDs.append(classID)
 
-    #Apply Non Maxima Suppression
-    detectionNMS = cv2.dnn.NMSBoxes(boxes, confidences, confidenceThreshold, NMSThreshold)
+    # Apply Non Maxima Suppression
+    detectionNMS = cv2.dnn.NMSBoxes(
+        boxes, confidences, confidenceThreshold, NMSThreshold)
     if(len(detectionNMS) > 0):
         for i in detectionNMS.flatten():
             (x, y) = (boxes[i][0], boxes[i][1])
@@ -61,12 +63,13 @@ while True:
             color = [int(c) for c in COLORS[classIDs[i]]]
             cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
             text = '{}: {:.4f}'.format(labels[classIDs[i]], confidences[i])
-            cv2.putText(frame, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            cv2.putText(frame, text, (x, y - 5),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
     cv2.imshow('Output', frame)
-    if(cv.waitKey(1) & 0xFF == ord('q')):
+    if(cv2.waitKey(1) & 0xFF == ord('q')):
         break
 
-#Finally when video capture is over, release the video capture and destroyAllWindows
+# Finally when video capture is over, release the video capture and destroyAllWindows
 video_capture.release()
 cv2.destroyAllWindows()
